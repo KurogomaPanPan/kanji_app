@@ -1,0 +1,75 @@
+/* v2 styles (copied from local app) */
+:root { --bg-primary:#fff; --bg-secondary:#f5f5f7; --bg-tertiary:#e8e8ed; --text-primary:#1d1d1f; --text-secondary:#6e6e73; --text-tertiary:#86868b; --accent:#007aff; --accent-hover:#0051d5; --border:#d2d2d7; --success:#34c759; --error:#ff3b30; --spacing-xs:4px; --spacing-sm:8px; --spacing-md:16px; --spacing-lg:24px; --spacing-xl:32px; --radius:12px; --shadow-sm:0 1px 3px rgba(0,0,0,0.08); --shadow-md:0 4px 12px rgba(0,0,0,0.12); --transition:0.2s ease; --flashcard-back-font: 28px; --flashcard-front-font: 14px; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;background:var(--bg-primary);color:var(--text-primary);line-height:1.5;-webkit-font-smoothing:antialiased}
+.app-container{max-width:428px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.app-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:var(--spacing-md) var(--spacing-lg);display:flex;align-items:center;gap:var(--spacing-md);border-bottom:1px solid var(--border)}
+.back-btn{background:none;border:none;color:var(--accent);padding:0;cursor:pointer;display:flex;align-items:center}
+.header-title{font-size:17px;font-weight:600;flex:1;text-align:center}
+.header-spacer{width:24px}
+.main-content{flex:1;padding:var(--spacing-lg)}
+.screen{animation:fadeIn .2s ease}@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.deck-info{text-align:center;padding:var(--spacing-xl) 0;margin-bottom:var(--spacing-lg)}
+.deck-stats{color:var(--text-secondary);font-size:14px}
+.action-buttons{display:flex;gap:var(--spacing-md);margin-bottom:var(--spacing-xl)}
+.action-btn{flex:1;background:var(--accent);color:#fff;border:none;padding:14px var(--spacing-lg);border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;transition:all var(--transition)}
+.action-btn.secondary{background:var(--bg-secondary);color:var(--text-primary)}
+.action-btn.large{width:100%;padding:16px}
+.section-header h3{font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:var(--spacing-md)}
+.chapter-list{display:flex;flex-direction:column;gap:var(--spacing-sm)}
+.chapter-item{background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius);padding:var(--spacing-md) var(--spacing-lg);cursor:pointer;transition:all var(--transition)}
+.chapter-item h4{font-size:16px;font-weight:600;margin-bottom:2px}
+.chapter-item p{color:var(--text-secondary);font-size:13px}
+.deck-actions{margin-top:8px;display:flex;gap:8px}
+.deck-actions .action-btn{padding:10px 12px;font-size:14px}
+.cards-controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--spacing-md)}
+.cards-progress{font-size:13px;font-weight:600;color:var(--text-secondary)}
+.cards-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--spacing-xs)}
+.flashcard{background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius);padding:8px;cursor:pointer;transition:all var(--transition);min-height:140px;display:flex;flex-direction:column;overflow:hidden}
+.flashcard-front{font-size:var(--flashcard-front-font);color:var(--text-primary);font-weight:400;padding-bottom:6px;border-bottom:1px solid var(--border);line-height:1.2;word-break:break-word;overflow:visible;display:block;-webkit-line-clamp:unset;-webkit-box-orient:unset}
+.flashcard-back{font-size:var(--flashcard-back-font);font-weight:400;color:var(--text-primary);font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN',sans-serif;text-align:center;flex:1;display:flex;align-items:center;justify-content:center;line-height:1.05;word-break:break-word;padding:6px 6px;overflow:hidden}
+.card-detail-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:var(--spacing-xl);animation:fadeIn .2s ease}
+.card-detail-container{position:relative;width:100%;max-width:360px}
+.close-detail-btn{position:absolute;top:-50px;right:0;background:none;border:none;color:#fff;cursor:pointer;padding:var(--spacing-sm)}
+.card-detail{background:var(--bg-primary);border-radius:var(--radius);padding:var(--spacing-xl);box-shadow:0 20px 60px rgba(0,0,0,.3);min-height:300px;display:flex;flex-direction:column;gap:var(--spacing-lg)}
+.card-detail-front{font-size:16px;line-height:1.6;color:var(--text-primary);font-weight:400;padding-bottom:var(--spacing-lg);border-bottom:2px solid var(--border)}
+.card-detail-back{font-size:clamp(28px,10vw,80px);font-weight:400;color:var(--text-primary);font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN',sans-serif;text-align:center;line-height:1.1;word-break:break-word}
+.search-section{margin-bottom:var(--spacing-lg);position:relative}
+.search-input{width:100%;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-primary);font-size:15px;padding:var(--spacing-md);transition:all var(--transition)}
+.search-input:focus{outline:none;border-color:var(--accent);background:var(--bg-primary);box-shadow:0 0 0 3px rgba(0,122,255,.1)}
+.search-input::placeholder{color:var(--text-tertiary)}
+.search-clear{position:absolute;top:50%;right:12px;transform:translateY(-50%);width:28px;height:28px;border:none;border-radius:50%;background:var(--bg-tertiary);color:var(--text-secondary);font-size:18px;line-height:1;display:none;align-items:center;justify-content:center;cursor:pointer;transition:all var(--transition)}
+.search-clear:hover{background:var(--bg-secondary)}
+.search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);max-height:400px;overflow-y:auto;z-index:50}
+.search-result-item{padding:var(--spacing-md) var(--spacing-lg);border-bottom:1px solid var(--border);cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:var(--spacing-md)}
+.search-result-item:last-child{border-bottom:none}
+.search-result-item:active{background:var(--bg-secondary)}
+.search-result-kanji{font-size:24px;font-weight:600;font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN',sans-serif;min-width:40px;text-align:center}
+.search-result-text{flex:1;display:flex;flex-direction:column}
+.search-result-chapter{font-size:12px;color:var(--text-secondary)}
+.search-no-results{padding:var(--spacing-lg);text-align:center;color:var(--text-secondary);font-size:14px}
+.quiz-config{max-width:400px;margin:0 auto}
+.quiz-config{text-align:center}
+.number-selector{display:flex;align-items:center;justify-content:center;gap:var(--spacing-md);margin:var(--spacing-md) 0}
+.num-btn{width:44px;height:44px;border-radius:50%;background:var(--bg-secondary);border:1px solid var(--border);font-size:22px;font-weight:700;cursor:pointer;color:var(--text-primary)}
+#questionCount{width:96px;padding:12px;font-size:18px;text-align:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-primary);color:var(--text-primary)}
+.quick-select{display:flex;flex-wrap:wrap;gap:var(--spacing-md);justify-content:center;margin:var(--spacing-md) 0 var(--spacing-lg)}
+.quick-btn{min-width:64px;padding:12px 18px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-secondary);font-weight:600;cursor:pointer;color:var(--text-primary)}
+.order-select{margin-top:var(--spacing-md)}
+.toggle-group{display:flex;gap:var(--spacing-md);justify-content:center;margin-bottom:var(--spacing-lg)}
+.toggle-option{padding:12px 18px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-secondary);font-weight:600;cursor:pointer;color:var(--text-primary)}
+.toggle-option.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.quiz-card{background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius);padding:var(--spacing-xl);min-height:300px;display:flex;flex-direction:column;gap:var(--spacing-lg)}
+.quiz-card-front{font-size:var(--flashcard-front-font);color:var(--text-primary);font-weight:400;text-align:center}
+.quiz-card-back{font-size:var(--flashcard-back-font);font-weight:400;color:var(--text-primary);font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN',sans-serif;text-align:center;line-height:1.1;word-break:break-word}
+.progress-bar{height:3px;background:var(--bg-tertiary);border-radius:2px;overflow:hidden;margin-top:var(--spacing-sm)}
+.progress-fill{height:100%;background:var(--accent);transition:width .3s ease}
+.quiz-answer-btns{display:flex;gap:var(--spacing-md)}
+.quiz-controls{margin-top:var(--spacing-lg)}
+.answer-btn{flex:1;background:var(--bg-primary);border:2px solid var(--border);color:var(--text-primary);padding:var(--spacing-lg);border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:var(--spacing-sm);transition:all var(--transition)}
+.answer-btn.correct{border-color:var(--success)}
+.answer-btn.incorrect{border-color:var(--error)}
+.results-stats{display:flex;gap:var(--spacing-xl);justify-content:center;margin-bottom:var(--spacing-xl);padding:var(--spacing-lg);background:var(--bg-secondary);border-radius:var(--radius)}
+.stat-label{font-size:12px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px}
+.stat-value{font-size:28px;font-weight:600}
+@media (max-width:380px){.cards-container{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
