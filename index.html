@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#007aff">
+    <link rel="manifest" href="manifest.json">
+    <title>漢字 v4</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <header class="app-header">
+            <button id="backBtn" class="back-btn" style="display: none;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <h1 id="headerTitle" class="header-title">漢字</h1>
+            <div class="header-spacer"></div>
+        </header>
+
+        <main id="mainContent" class="main-content">
+            <!-- Deck Manager Screen -->
+            <div id="deckManagerScreen" class="screen">
+                <div class="deck-info">
+                    <h2>Gérer les decks</h2>
+                    <p class="deck-stats">Ajouter, choisir, ou supprimer un deck</p>
+                </div>
+                                <div class="config-group" style="margin-bottom: 24px;">
+                                        <input id="newDeckName" type="text" placeholder="Nom du deck (ex: KDLT2)" style="width: 100%; padding: 12px; margin-bottom: 12px;" />
+                                        <div style="display:flex; flex-direction:column; gap:8px;">
+                                            <div>
+                                                <label style="font-size:13px; color:var(--text-secondary); display:block; margin-bottom:6px;">Importer un deck JSON</label>
+                                                <input id="newDeckFile" type="file" accept="application/json" style="width: 100%; padding: 12px;" />
+                                                <button id="addDeckBtn" class="action-btn primary" style="margin-top: 8px;"><span>Ajouter le deck JSON</span></button>
+                                            </div>
+                                            <div style="margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+                                                <label style="font-size:13px; color:var(--text-secondary); display:block;">Importer un deck APKG (Anki)</label>
+                                                <input id="newApkgFile" type="file" style="width: 100%; padding: 12px;" />
+                                                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
+                                                    <div>
+                                                        <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Champ recto</label>
+                                                        <select id="apkgFrontField" style="width:100%; padding:10px;" disabled>
+                                                            <option>Chargement...</option>
+                                                        </select>
+                                                    </div>
+                                                    <div>
+                                                        <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Champ verso</label>
+                                                        <select id="apkgBackField" style="width:100%; padding:10px;" disabled>
+                                                            <option>Chargement...</option>
+                                                        </select>
+                                                    </div>
+                                                    <div>
+                                                        <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Champ chapitre</label>
+                                                        <select id="apkgChapterField" style="width:100%; padding:10px;" disabled>
+                                                            <option value="">Default</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div style="font-size:12px; color:var(--text-secondary);">Sélectionne les champs à utiliser pour le recto, le verso et le chapitre (optionnel). Si "Default" est sélectionné, toutes les cartes seront dans un seul chapitre.</div>
+                                                <button id="importApkgBtn" class="action-btn secondary" style="margin-top: 4px;"><span>Importer .apkg → JSON</span></button>
+                                            </div>
+                                        </div>
+                                        <div id="addDeckStatus" style="margin-top: 12px; color: var(--text-secondary);"></div>
+                                </div>
+                <div class="section-header"><h3>Decks existants</h3></div>
+                <div id="deckList" class="chapter-list"></div>
+            </div>
+
+            <!-- Home / Chapter / Cards / Quiz screens (within a deck) -->
+            <div id="homeScreen" class="screen" style="display:none;"></div>
+
+            <div id="cardsScreen" class="screen" style="display:none;">
+                <div id="chapterControls" style="display:none;">
+                    <div class="chapter-header">
+                        <h2 id="chapterTitle"></h2>
+                        <p class="chapter-stats" id="chapterStats"></p>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-btn primary" id="viewChapterBtn"><span>Voir les cartes</span></button>
+                        <button class="action-btn secondary" id="quizChapterBtn"><span>Quiz du chapitre</span></button>
+                    </div>
+                </div>
+                <div class="cards-controls">
+                    <div class="cards-progress"><span id="cardProgress">0 / 0</span></div>
+                    <div id="frontFontControls" style="display:flex;gap:8px;align-items:center">
+                        <button id="decreaseFrontFont" class="action-btn secondary" style="padding:6px 10px; font-size:14px;">A-</button>
+                        <button id="increaseFrontFont" class="action-btn" style="padding:6px 10px; font-size:14px;">A+</button>
+                        <div id="frontFontSizeDisplay" style="color:var(--text-secondary);font-size:13px;margin-left:6px">--</div>
+                    </div>
+                    <div id="backFontControls" style="display:flex;gap:8px;align-items:center">
+                        <button id="decreaseBackFont" class="action-btn secondary" style="padding:6px 10px; font-size:14px;">A-</button>
+                        <button id="increaseBackFont" class="action-btn" style="padding:6px 10px; font-size:14px;">A+</button>
+                        <div id="backFontSizeDisplay" style="color:var(--text-secondary);font-size:13px;margin-left:6px">--</div>
+                    </div>
+                </div>
+                <div id="cardsContainer" class="cards-container"></div>
+            </div>
+
+            <div id="cardDetailScreen" class="screen card-detail-screen" style="display:none;">
+                <div class="card-detail-container">
+                    <button id="closeCardDetail" class="close-detail-btn">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div id="detailCard" class="card-detail">
+                        <div class="card-detail-front"></div>
+                        <div class="card-detail-back"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="quizConfigScreen" class="screen" style="display:none;">
+                <div class="quiz-config">
+                    <h2 id="quizConfigTitle">Configuration du Quiz</h2>
+                    <div class="config-group">
+                        <label for="questionCount">Nombre de questions</label>
+                        <div class="number-selector">
+                            <input type="number" id="questionCount" min="1" max="100" value="10" inputmode="numeric" pattern="[0-9]*" step="1">
+                        </div>
+                        <div class="quick-select">
+                            <button class="quick-btn" data-value="5">5</button>
+                            <button class="quick-btn" data-value="10">10</button>
+                            <button class="quick-btn" data-value="20">20</button>
+                            <button class="quick-btn" data-value="50">50</button>
+                            <button class="quick-btn" id="quickMaxBtn" data-value="max">Max</button>
+                        </div>
+                        <div class="order-select">
+                            <label>Ordre des questions</label>
+                            <div class="toggle-group">
+                                <button class="toggle-option" id="orderRandomBtn" data-order="random">Aléatoire</button>
+                                <button class="toggle-option" id="orderSequentialBtn" data-order="sequential">Ordre</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="startQuizBtn" class="action-btn primary large"><span>Commencer le Quiz</span></button>
+                </div>
+            </div>
+
+            <div id="quizScreen" class="screen" style="display:none;">
+                <div class="quiz-header">
+                    <div class="quiz-progress">
+                        <span id="quizProgress">Question 1 / 10</span>
+                        <div class="progress-bar"><div id="quizProgressBar" class="progress-fill"></div></div>
+                    </div>
+                    <div class="quiz-score"><span>Score: <strong id="quizScore">0 / 0</strong></span></div>
+                </div>
+                <div id="quizCardContainer" class="quiz-card-container">
+                    <div id="quizCard" class="quiz-card">
+                        <div class="quiz-card-front"></div>
+                        <div class="quiz-card-back" style="display:none;"></div>
+                    </div>
+                </div>
+                <div class="quiz-controls">
+                    <button id="revealAnswerBtn" class="action-btn primary"><span>Révéler la réponse</span></button>
+                    <div id="quizAnswerBtns" class="quiz-answer-btns" style="display:none;">
+                        <button class="answer-btn correct" data-answer="correct"><span class="answer-icon">✓</span><span>Réussi</span></button>
+                        <button class="answer-btn incorrect" data-answer="incorrect"><span class="answer-icon">✗</span><span>Raté</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="quizResultsScreen" class="screen" style="display:none;">
+                <div class="quiz-results">
+                    <h2>Quiz Terminé !</h2>
+                    <div class="results-stats">
+                        <div class="stat-item"><span class="stat-label">Réussis</span><span class="stat-value correct" id="correctCount">0</span></div>
+                        <div class="stat-item"><span class="stat-label">Ratés</span><span class="stat-value incorrect" id="incorrectCount">0</span></div>
+                    </div>
+                    <button id="backToDecksBtn" class="action-btn primary large"><span>Retour aux decks</span></button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Dependencies for .apkg import -->
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js"></script>
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
